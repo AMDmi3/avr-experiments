@@ -9,6 +9,7 @@ etc.).
 ## Programs
 
 * **flashingleds.asm** - flashes two LEDs
+* **subroutines.asm** - the same, uses subroutines
 
 ## Building
 
