@@ -10,6 +10,7 @@ etc.).
 
 * **flashingleds.asm** - flashes two LEDs
 * **subroutines.asm** - the same, uses subroutines
+* **interrupts.asm** - demonstrates sleep and interrupt handling
 
 ## Building
 
