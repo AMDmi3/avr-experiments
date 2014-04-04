@@ -19,9 +19,8 @@ mainloop:
     ; outer loop time ~= inner loop time * 256 * 256 / (clock rate / clock div)
     ; inner loop time ~= time(dec) + time(brne which jumps) = 3
     ; with default AVR settings, outer loop time ~=
-    ;     3 * 256 * 256 / (8000000 / 8) ~= 0.2 sec
-    ; however in practise I've had 40*5 loop iterations in 32 sec, e.g.
-    ;     outer loop time = 32/40/5 = 0.16 sec
+    ;     3 * 256 * 256 / (9600000 / 8) ~= 0.16 sec
+    ; thus 6 iterations give us one second delay
 
 wait:
     dec r1
