@@ -14,11 +14,14 @@
 mainloop:
     clr r1                              ; set up loop timing
     clr r2
-    ldi r25, 5                          ; delay = outer wait loop iterations
-    ; outer loop time ~= inner_loop_time * 256 * 256 / (clock_rate / clock_div)
-    ; inner_loop_time ~= time(dec) + time(brne which jumps) = 3
-    ; with default AVR settings, outer_loop_time ~=
+    ldi r25, 3                          ; delay = outer wait loop iterations
+    ; in theory,
+    ; outer loop time ~= inner loop time * 256 * 256 / (clock rate / clock div)
+    ; inner loop time ~= time(dec) + time(brne which jumps) = 3
+    ; with default AVR settings, outer loop time ~=
     ;     3 * 256 * 256 / (8000000 / 8) ~= 0.2 sec
+    ; however in practise I've had 40*5 loop iterations in 32 sec, e.g.
+    ;     outer loop time = 32/40/5 = 0.16 sec
 
 wait:
     dec r1
