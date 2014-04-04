@@ -6,26 +6,28 @@
 ;
 .include "tn13def.inc"
 
-    ldi r16, (1<<PB3)                   ; set pins 3 & 4 as output, pin 3 high
-    ldi r17, (1<<PB3)|(1<<PB4)
-    out PORTB, r16
-    out DDRB, r17
-
-    mov r16, r17                        ; save mask for toggling LEDs
+    ldi r16, (1<<PB3)                   ; mask for pin 3
+    ldi r17, (1<<PB3)|(1<<PB4)          ; mask for pins 3 & 4
+    out PORTB, r16                      ; set pin 3 as high
+    out DDRB, r17                       ; set pins 3 & 4 as output
 
 mainloop:
     clr r1                              ; set up loop timing
     clr r2
-    ldi r17, 5
+    ldi r25, 5                          ; delay = outer wait loop iterations
+    ; outer loop time ~= inner_loop_time * 256 * 256 / (clock_rate / clock_div)
+    ; inner_loop_time ~= time(dec) + time(brne which jumps) = 3
+    ; with default AVR settings, outer_loop_time ~=
+    ;     3 * 256 * 256 / (8000000 / 8) ~= 0.2 sec
 
 wait:
     dec r1
-    brne wait
+    brne wait                           ; inner wait loop - 256 iterations
     dec r2
-    brne wait
-    dec r17
-    brne wait
+    brne wait                           ; middle wait loop - 256 iterations
+    dec r25
+    brne wait                           ; outer wait loop - [r25] iterations
 
-    out PINB, r16                       ; toggle both LEDs
+    out PINB, r17                       ; toggle both LEDs
 
     rjmp mainloop                       ; continue main loop
