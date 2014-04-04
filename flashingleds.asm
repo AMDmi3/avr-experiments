@@ -1,10 +1,10 @@
-; vim: tabstop=4 shiftwidth=4 expandtab smarttab softtabstop=40
-;
 ; My first program: LEDs are connected to pins 3 & 4 (two pins free
 ; from programmer in my case), one LED is lit at a time, and with a
 ; period of 0.5 second LEDs are toggled
 ;
+.nolist
 .include "tn13def.inc"
+.list
 
     ldi r16, (1<<PB3)                   ; mask for pin 3
     ldi r17, (1<<PB3)|(1<<PB4)          ; mask for pins 3 & 4
