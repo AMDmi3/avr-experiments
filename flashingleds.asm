@@ -1,8 +1,8 @@
 ; vim: tabstop=4 shiftwidth=4 expandtab smarttab softtabstop=40
 ;
-; My first program: LEDs are connected to ping 3 & 4 (two pins free
-; from programmer in my case), on start only one LED is on and then
-; each time period (set in r17 below) both leds are toggled
+; My first program: LEDs are connected to pins 3 & 4 (two pins free
+; from programmer in my case), one LED is lit at a time, and with a
+; period of 0.5 second LEDs are toggled
 ;
 .include "tn13def.inc"
 
