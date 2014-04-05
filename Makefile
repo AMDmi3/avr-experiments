@@ -9,9 +9,9 @@ AVRDUDE_PORT?=	/dev/ppi0
 AVRDUDE_PROGRAMMER?=	amdmi3 # config for custom parallel port programmer
 AVRDUDE_FLAGS+=	-p t13 -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
 
-TARGET?=	interrupts
+TARGET?=	timer
 
-ALL_TARGETS=	flashingleds subroutines interrupts
+ALL_TARGETS=	flashingleds subroutines interrupts timer
 
 all: ${ALL_TARGETS}
 
