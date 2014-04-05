@@ -9,16 +9,15 @@ AVRDUDE_PORT?=	/dev/ppi0
 AVRDUDE_PROGRAMMER?=	amdmi3 # config for custom parallel port programmer
 AVRDUDE_FLAGS+=	-p t13 -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
 
-TARGET?=	flashingleds
+TARGET?=	interrupts
 
-# all target
-all: ${TARGET}
+ALL_TARGETS=	flashingleds subroutines interrupts
 
-# specific targets
-flashingleds: flashingleds.asm
+all: ${ALL_TARGETS}
 
-# common targets
-flash: ${FLASH_TARGET}
+target: ${TARGET}
+
+flash: ${TARGET}
 	${AVRDUDE} ${AVRDUDE_FLAGS} -U flash:w:${FLASH_TARGET}.hex
 
 .asm:
