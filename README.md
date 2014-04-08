@@ -23,19 +23,7 @@ FreeBSD system.
 
 I use custom LPT programmer described through the link below.
 
-Here's AVRDUDE config for it:
-
-```
-programmer
-  id    = "amdmi3";
-  desc  = "AMDmi3's parallel programmer";
-  type  = par;
-  sck   = 6;
-  mosi  = 7;
-  reset = 9;
-  miso  = 10;
-;
-```
+AVRDUDE config for it is included in the repository.
 
 ## Links
 

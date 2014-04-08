@@ -4,9 +4,9 @@ AVRA_INCDIR?=	/usr/local/share/avra/includes/
 AVRA_FLAGS+=	-I ${AVRA_INCDIR}
 
 # avrdude config for flashing
-AVRDUDE?=	sudo avrdude
+AVRDUDE?=	avrdude
 AVRDUDE_PORT?=	/dev/ppi0
-AVRDUDE_PROGRAMMER?=	amdmi3 # config for custom parallel port programmer
+AVRDUDE_PROGRAMMER?=	five-wires # see dot.avrduderc
 AVRDUDE_FLAGS+=	-p t13 -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
 
 TARGET?=	multitasking
