@@ -18,7 +18,7 @@ all: ${ALL_TARGETS}
 target: ${TARGET}
 
 flash: ${TARGET}
-	${AVRDUDE} ${AVRDUDE_FLAGS} -U flash:w:${FLASH_TARGET}.hex
+	${AVRDUDE} ${AVRDUDE_FLAGS} -U flash:w:${TARGET}.hex
 
 .asm:
 	${AVRA} ${AVRA_FLAGS} ${.IMPSRC}
