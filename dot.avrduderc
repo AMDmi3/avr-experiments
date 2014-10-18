@@ -1,9 +1,0 @@
-programmer
-  id    = "five-wires";
-  desc  = "\"Five wires\" parallel programmer";
-  type  = par;
-  sck   = 6;
-  mosi  = 7;
-  reset = 9;
-  miso  = 10;
-;

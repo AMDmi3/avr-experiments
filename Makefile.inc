@@ -5,17 +5,11 @@ AVRA_FLAGS+=	-I ${AVRA_INCDIR}
 
 # avrdude config for flashing
 AVRDUDE?=	avrdude
-AVRDUDE_PORT?=	/dev/ppi0
-AVRDUDE_PROGRAMMER?=	five-wires # see dot.avrduderc
-AVRDUDE_FLAGS+=	-p t13 -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
+AVRDUDE_PORT?=	/dev/ugen0.3
+AVRDUDE_PROGRAMMER?=	usbasp
+AVRDUDE_FLAGS+=	-p t2313 -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
 
-TARGET?=	multitasking
-
-ALL_TARGETS=	flashingleds subroutines interrupts timer multitasking
-
-all: ${ALL_TARGETS}
-
-target: ${TARGET}
+all: ${TARGET}
 
 flash: ${TARGET}
 	${AVRDUDE} ${AVRDUDE_FLAGS} -U flash:w:${TARGET}.hex
