@@ -7,30 +7,42 @@
 #include "ssd.h"
 #include "twi.h"
 
+void error() {
+	ssd_hex(0xe);
+	while(1) {
+	}
+}
+
 int main(void) {
 	sleep_cpu();
 	ssd_init();
-	//ssd_hello();
-
-	/*int counter = 0;
-	while (1) {
-		ssd_hex(counter++);
-		if (counter == 16)
-			counter = 0;
-		_delay_ms(1000);
-	}*/
 
 	twi_init();
 
 	twi_start_condition();
-
-	int res = twi_send_byte(0b11010000);
-
+	if (twi_send_byte(0b11010000) != 0)
+		error();
+	if (twi_send_byte(0x00) != 0)
+		error();
+	if (twi_send_byte(0b00000000) != 0)
+		error();
 	twi_stop_condition();
 
-	ssd_dec(res);
-
 	while(1) {
+		twi_start_condition();
+		if (twi_send_byte(0b11010000) != 0)
+			error();
+		if (twi_send_byte(0x00) != 0)
+			error();
+		twi_stop_condition();
+
+		twi_start_condition();
+		if (twi_send_byte(0b11010001) != 0)
+			error();
+		uint8_t sec = twi_recv_byte(1);
+		twi_stop_condition();
+
+		ssd_dec(sec & 0x0f);
 	}
 
 	return 0;

@@ -5,8 +5,7 @@
 
 #include "pin.h"
 
-//#define TWI_DELAY() _delay_us(10)
-#define TWI_DELAY() _delay_ms(50)
+#define TWI_DELAY() _delay_us(10)
 
 #define TWI_SETCLOCK(val) SETPIN(A, 0, val)
 #define TWI_SETDATA(val) SETPIN(A, 1, val)
@@ -60,7 +59,6 @@ int twi_recv_bit() {
 	TWI_DELAY();
 	TWI_SETCLOCK(1);
 	TWI_DELAY();
-	//_delay_ms(100000);
 	int res = TWI_GETDATA();
 	TWI_DELAY();
 	TWI_SETCLOCK(0);
@@ -68,7 +66,7 @@ int twi_recv_bit() {
 	return res;
 }
 
-int twi_send_byte(int byte) {
+int twi_send_byte(uint8_t byte) {
 	twi_send_bit(byte & 0b10000000);
 	twi_send_bit(byte & 0b01000000);
 	twi_send_bit(byte & 0b00100000);
@@ -77,9 +75,27 @@ int twi_send_byte(int byte) {
 	twi_send_bit(byte & 0b00000100);
 	twi_send_bit(byte & 0b00000010);
 	twi_send_bit(byte & 0b00000001);
+
 	TWI_READMODE();
 	int res = twi_recv_bit();
 	TWI_WRITEMODE();
+
+	return res;
+}
+
+uint8_t twi_recv_byte(int last) {
+	TWI_READMODE();
+
+	uint8_t byte = 0, i = 0;
+	for (i = 0; i < 8; i++) {
+		byte <<= 1;
+		byte |= twi_recv_bit();
+	}
+
+	TWI_WRITEMODE();
+	twi_send_bit(last);
+
+	return byte;
 }
 
 #endif
