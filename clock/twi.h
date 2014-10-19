@@ -14,7 +14,7 @@
 #define TWI_WRITEMODE() SETOUT(A, 1, 1)
 #define TWI_READMODE() do { PULLUP(A, 1, 0); SETOUT(A, 1, 0); } while(0)
 
-void twi_init() {
+inline void twi_init() {
 	// set pins used by 2wire interface
 	DDRA |= 0b00000011;
 	PORTA |= 0b00000011;

@@ -25,7 +25,7 @@
 // F -> D4
 // G -> D5
 
-void ssd_init() {
+inline void ssd_init() {
 	// set pins up (which means leds off)
 	PORTB |= 0b00000011;
 	PORTD |= 0b01111100;
