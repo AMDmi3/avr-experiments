@@ -6,14 +6,14 @@
 #include "pin.h"
 
 //#define TWI_DELAY() _delay_us(10)
-#define TWI_DELAY() _delay_ms(1000)
+#define TWI_DELAY() _delay_ms(50)
 
 #define TWI_SETCLOCK(val) SETPIN(A, 0, val)
 #define TWI_SETDATA(val) SETPIN(A, 1, val)
 #define TWI_GETDATA() GETPIN(A, 1)
 
 #define TWI_WRITEMODE() SETOUT(A, 1, 1)
-#define TWI_READMODE() do { SETOUT(A, 1, 0); PULLUP(A, 1, 1); } while(0)
+#define TWI_READMODE() do { PULLUP(A, 1, 0); SETOUT(A, 1, 0); } while(0)
 
 void twi_init() {
 	// set pins used by 2wire interface
@@ -23,14 +23,33 @@ void twi_init() {
 
 void twi_start_condition() {
 	// assumes clock high and data high
+	TWI_DELAY();
 	TWI_SETDATA(0);
+	TWI_DELAY();
+	TWI_DELAY();
+	TWI_SETCLOCK(0);
+	TWI_DELAY();
+}
+
+void twi_stop_condition() {
+	// assumes clock low
+	TWI_DELAY();
+	TWI_SETDATA(0);
+	TWI_DELAY();
+	TWI_DELAY();
+	TWI_SETCLOCK(1);
+	TWI_DELAY();
+	TWI_DELAY();
+	TWI_SETDATA(1);
 	TWI_DELAY();
 }
 
 void twi_send_bit(int bit) {
 	// assumes clock low
 	TWI_SETDATA(bit);
+	TWI_DELAY();
 	TWI_SETCLOCK(1);
+	TWI_DELAY();
 	TWI_DELAY();
 	TWI_SETCLOCK(0);
 	TWI_DELAY();
@@ -38,9 +57,12 @@ void twi_send_bit(int bit) {
 
 int twi_recv_bit() {
 	// assumes clock low
+	TWI_DELAY();
 	TWI_SETCLOCK(1);
 	TWI_DELAY();
+	//_delay_ms(100000);
 	int res = TWI_GETDATA();
+	TWI_DELAY();
 	TWI_SETCLOCK(0);
 	TWI_DELAY();
 	return res;

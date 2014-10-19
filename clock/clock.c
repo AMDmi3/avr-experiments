@@ -2,11 +2,13 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/sleep.h>
 
 #include "ssd.h"
 #include "twi.h"
 
 int main(void) {
+	sleep_cpu();
 	ssd_init();
 	//ssd_hello();
 
@@ -20,7 +22,11 @@ int main(void) {
 
 	twi_init();
 
+	twi_start_condition();
+
 	int res = twi_send_byte(0b11010000);
+
+	twi_stop_condition();
 
 	ssd_dec(res);
 
