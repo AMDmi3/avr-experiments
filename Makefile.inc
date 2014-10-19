@@ -22,8 +22,9 @@ AVRA_INCDIR?=	/usr/local/share/avra/includes/
 AVRA_FLAGS+=	-I ${AVRA_INCDIR}
 
 # avr-gcc for C compilation
-CC=		avr-gcc
-CFLAGS=		-mmcu=${DEVICE} -Os
+AVR_CC?=	avr-gcc
+AVR_CFLAGS?=	-Os
+AVR_CFLAGS+=	-mmcu=${DEVICE} -Os
 
 # avrdude config for flashing
 AVRDUDE?=	avrdude
@@ -42,6 +43,9 @@ flash: ${TARGET}
 
 .asm:
 	${AVRA} ${AVRA_FLAGS} ${.IMPSRC}
+
+.c: ${DEPENDS}
+	${AVR_CC} ${AVR_CFLAGS} -o ${.TARGET} ${.IMPSRC}
 
 clean:
 	rm -f *.hex *.cof *.obj
