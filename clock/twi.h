@@ -41,6 +41,7 @@ void twi_stop_condition() {
 void twi_send_bit(int bit) {
 	// assumes clock low
 	TWI_SETDATA(bit);
+	TWI_DELAY();
 	TWI_SETCLOCK(1);
 	TWI_DELAY();
 	TWI_SETCLOCK(0);
