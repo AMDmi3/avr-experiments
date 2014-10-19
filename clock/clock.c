@@ -6,43 +6,23 @@
 
 #include "ssd.h"
 #include "twi.h"
+#include "panic.h"
 
-void error() {
-	ssd_hex(0xe);
-	while(1) {
-	}
-}
+uint8_t zero = 0;
+uint8_t seconds = 0;
 
 int main(void) {
 	sleep_cpu();
 	ssd_init();
 
 	twi_init();
-
-	twi_start_condition();
-	if (twi_send_byte(0b11010000) != 0)
-		error();
-	if (twi_send_byte(0x00) != 0)
-		error();
-	if (twi_send_byte(0b00000000) != 0)
-		error();
-	twi_stop_condition();
+	if (twi_send_bytes(0b1101000, 0x0, &zero, 1) != 1)
+		panic();
 
 	while(1) {
-		twi_start_condition();
-		if (twi_send_byte(0b11010000) != 0)
-			error();
-		if (twi_send_byte(0x00) != 0)
-			error();
-		twi_stop_condition();
-
-		twi_start_condition();
-		if (twi_send_byte(0b11010001) != 0)
-			error();
-		uint8_t sec = twi_recv_byte(1);
-		twi_stop_condition();
-
-		ssd_dec(sec & 0x0f);
+		if (twi_recv_bytes(0b1101000, 0x0, &seconds, 1) != 1)
+			panic();
+		ssd_dec(seconds & 0x0f);
 	}
 
 	return 0;

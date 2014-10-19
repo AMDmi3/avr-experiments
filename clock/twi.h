@@ -98,4 +98,40 @@ uint8_t twi_recv_byte(int last) {
 	return byte;
 }
 
+int twi_send_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
+	int ret = -1;
+	twi_start_condition();
+	if (twi_send_byte(address << 1) != 0)
+		goto ret;
+	if (twi_send_byte(offset) != 0)
+		goto ret;
+	for (ret = 0; ret < count; ++ret) {
+		if (twi_send_byte(bytes[ret]) != 0)
+			goto ret;
+	}
+ret:
+	twi_stop_condition();
+	return ret;
+}
+
+int twi_recv_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
+	int ret = -1;
+	uint8_t* current_byte = bytes;
+	twi_start_condition();
+	if (twi_send_byte(address << 1) != 0)
+		goto ret;
+	if (twi_send_byte(offset) != 0)
+		goto ret;
+	twi_stop_condition();
+
+	twi_start_condition();
+	if (twi_send_byte((address << 1) | 1) != 0)
+		goto ret;
+	for (ret = 0; ret < count; ++ret)
+		*current_byte = twi_recv_byte(ret == count - 1);
+ret:
+	twi_stop_condition();
+	return ret;
+}
+
 #endif
