@@ -28,9 +28,8 @@ AVR_CFLAGS+=	-mmcu=${DEVICE} -Os
 
 # avrdude config for flashing
 AVRDUDE?=	avrdude
-AVRDUDE_PORT?=	/dev/ugen0.3
 AVRDUDE_PROGRAMMER?=	usbasp
-AVRDUDE_FLAGS+=	-p ${DEVICE} -c ${AVRDUDE_PROGRAMMER} -P ${AVRDUDE_PORT}
+AVRDUDE_FLAGS+=	-p ${DEVICE} -c ${AVRDUDE_PROGRAMMER}
 
 all: ${TARGET}
 
