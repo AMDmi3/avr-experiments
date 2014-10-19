@@ -23,6 +23,7 @@ AVRA_FLAGS+=	-I ${AVRA_INCDIR}
 
 # avr-gcc for C compilation
 AVR_CC?=	avr-gcc
+AVR_OBJDUMP?=	avr-objdump
 AVR_CFLAGS?=	-Os
 AVR_CFLAGS+=	-mmcu=${DEVICE} -Os
 
@@ -45,6 +46,7 @@ flash: ${TARGET}
 
 .c: ${DEPENDS}
 	${AVR_CC} ${AVR_CFLAGS} -o ${.TARGET} ${.IMPSRC}
+	@echo "Program size:" `${AVR_OBJDUMP} -h ${.TARGET} | grep .text | tr 'abcdef' 'ABCDEF' | awk '{print "ibase=16; "$$3}' | bc`
 
 clean:
 	rm -f *.hex *.cof *.obj
