@@ -58,14 +58,10 @@ int twi_recv_bit() {
 }
 
 int twi_send_byte(uint8_t byte) {
-	twi_send_bit(byte & 0b10000000);
-	twi_send_bit(byte & 0b01000000);
-	twi_send_bit(byte & 0b00100000);
-	twi_send_bit(byte & 0b00010000);
-	twi_send_bit(byte & 0b00001000);
-	twi_send_bit(byte & 0b00000100);
-	twi_send_bit(byte & 0b00000010);
-	twi_send_bit(byte & 0b00000001);
+	for (int i = 0; i < 8; i++) {
+		twi_send_bit(byte & 0b10000000);
+		byte <<= 1;
+	}
 
 	TWI_READMODE();
 	int res = twi_recv_bit();
