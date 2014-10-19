@@ -107,7 +107,7 @@ int twi_recv_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
 	uint8_t* current_byte = bytes;
 
 	if (twi_send_bytes(address, offset, 0, 0) == -1)
-		return -1;
+		goto ret;
 
 	twi_start_condition();
 	if (twi_send_byte((address << 1) | 1) != 0)
