@@ -7,6 +7,8 @@
 .error DEVICE not defined
 .endif
 
+DEPENDS+=	Makefile ../Makefile.inc
+
 # detect language
 .if exists(${TARGET}.c)
 LANGUAGE=	c
