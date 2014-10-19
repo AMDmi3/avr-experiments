@@ -14,13 +14,13 @@
 #define TWI_WRITEMODE() SETOUT(A, 1, 1)
 #define TWI_READMODE() do { PULLUP(A, 1, 0); SETOUT(A, 1, 0); } while(0)
 
-inline void twi_init() {
+static void twi_init() {
 	// set pins used by 2wire interface
 	DDRA |= 0b00000011;
 	PORTA |= 0b00000011;
 }
 
-void twi_start_condition() {
+static void twi_start_condition() {
 	// assumes clock high and data high
 	TWI_SETDATA(0);
 	TWI_DELAY();
@@ -28,7 +28,7 @@ void twi_start_condition() {
 	TWI_DELAY();
 }
 
-void twi_stop_condition() {
+static void twi_stop_condition() {
 	// assumes clock low
 	TWI_SETDATA(0);
 	TWI_DELAY();
@@ -38,7 +38,7 @@ void twi_stop_condition() {
 	TWI_DELAY();
 }
 
-void twi_send_bit(int bit) {
+static void twi_send_bit(int bit) {
 	// assumes clock low
 	TWI_SETDATA(bit);
 	TWI_DELAY();
@@ -48,7 +48,7 @@ void twi_send_bit(int bit) {
 	TWI_DELAY();
 }
 
-int twi_recv_bit() {
+static int twi_recv_bit() {
 	// assumes clock low
 	TWI_SETCLOCK(1);
 	TWI_DELAY();
@@ -58,7 +58,7 @@ int twi_recv_bit() {
 	return res;
 }
 
-int twi_send_byte(uint8_t byte) {
+static int twi_send_byte(uint8_t byte) {
 	for (int i = 0; i < 8; i++) {
 		twi_send_bit(byte & 0b10000000);
 		byte <<= 1;
@@ -71,7 +71,7 @@ int twi_send_byte(uint8_t byte) {
 	return res;
 }
 
-uint8_t twi_recv_byte(int last) {
+static uint8_t twi_recv_byte(int last) {
 	TWI_READMODE();
 
 	uint8_t byte = 0, i = 0;
@@ -86,7 +86,7 @@ uint8_t twi_recv_byte(int last) {
 	return byte;
 }
 
-int twi_send_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
+static int twi_send_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
 	int ret = -1;
 	twi_start_condition();
 	if (twi_send_byte(address << 1) != 0)
@@ -102,7 +102,7 @@ ret:
 	return ret;
 }
 
-int twi_recv_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
+static int twi_recv_bytes(uint8_t address, uint8_t offset, uint8_t* bytes, int count) {
 	int ret = -1;
 	uint8_t* current_byte = bytes;
 

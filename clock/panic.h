@@ -5,7 +5,7 @@
 
 #include "ssd.h"
 
-void panic() {
+static void panic() {
 	ssd_display(0b00001000);
 	sleep_enable();
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);

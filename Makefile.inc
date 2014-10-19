@@ -28,7 +28,6 @@ AVR_CC?=	avr-gcc
 AVR_OBJDUMP?=	avr-objdump
 AVR_CFLAGS?=	-Os
 AVR_CFLAGS+=	-mmcu=${DEVICE} -std=c99
-AVR_CFLAGS+=	-fdata-sections -ffunction-sections -Wl,--gc-sections
 
 # avrdude config for flashing
 AVRDUDE?=	avrdude

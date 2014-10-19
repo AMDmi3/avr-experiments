@@ -25,7 +25,7 @@
 // F -> D4
 // G -> D5
 
-inline void ssd_init() {
+static void ssd_init() {
 	// set pins up (which means leds off)
 	PORTB |= 0b00000011;
 	PORTD |= 0b01111100;
@@ -35,7 +35,7 @@ inline void ssd_init() {
 	DDRD |= 0b01111100;
 }
 
-void ssd_display(int mask) {
+static void ssd_display(int mask) {
 	// display one symbol
 	// mask holds each segment as a bit
 	// starting from LSB: -gfedcba
@@ -48,7 +48,7 @@ void ssd_display(int mask) {
 	SETPIN(D, 5, !(mask & 0b01000000));
 }
 
-void ssd_dec(int num) {
+static void ssd_dec(int num) {
 	// display decimal digit
 	switch (num % 10) {
 	case 0x0: ssd_display(0b00111111); break;
@@ -64,7 +64,7 @@ void ssd_dec(int num) {
 	}
 }
 
-void ssd_hex(int num) {
+static void ssd_hex(int num) {
 	// display hexadecimal digit
 	switch (num % 16) {
 	case 0xA: ssd_display(0b01110111); break;
@@ -77,7 +77,7 @@ void ssd_hex(int num) {
 	}
 }
 
-void ssd_hello() {
+static void ssd_hello() {
 	int a = 1;
 	while (a < 0b01000000) {
 		ssd_display(a);
