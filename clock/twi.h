@@ -22,9 +22,7 @@ void twi_init() {
 
 void twi_start_condition() {
 	// assumes clock high and data high
-	TWI_DELAY();
 	TWI_SETDATA(0);
-	TWI_DELAY();
 	TWI_DELAY();
 	TWI_SETCLOCK(0);
 	TWI_DELAY();
@@ -32,12 +30,9 @@ void twi_start_condition() {
 
 void twi_stop_condition() {
 	// assumes clock low
-	TWI_DELAY();
 	TWI_SETDATA(0);
 	TWI_DELAY();
-	TWI_DELAY();
 	TWI_SETCLOCK(1);
-	TWI_DELAY();
 	TWI_DELAY();
 	TWI_SETDATA(1);
 	TWI_DELAY();
@@ -46,9 +41,7 @@ void twi_stop_condition() {
 void twi_send_bit(int bit) {
 	// assumes clock low
 	TWI_SETDATA(bit);
-	TWI_DELAY();
 	TWI_SETCLOCK(1);
-	TWI_DELAY();
 	TWI_DELAY();
 	TWI_SETCLOCK(0);
 	TWI_DELAY();
@@ -56,11 +49,9 @@ void twi_send_bit(int bit) {
 
 int twi_recv_bit() {
 	// assumes clock low
-	TWI_DELAY();
 	TWI_SETCLOCK(1);
 	TWI_DELAY();
 	int res = TWI_GETDATA();
-	TWI_DELAY();
 	TWI_SETCLOCK(0);
 	TWI_DELAY();
 	return res;
