@@ -51,4 +51,4 @@ flash: ${TARGET}
 	@echo "Program size:" `${AVR_OBJDUMP} -h ${.TARGET} | grep .text | tr 'abcdef' 'ABCDEF' | awk '{print "ibase=16; "$$3}' | bc`
 
 clean:
-	rm -f *.hex *.cof *.obj
+	rm -f *.hex *.cof *.obj ${TARGET}
