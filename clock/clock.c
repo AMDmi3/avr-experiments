@@ -5,7 +5,7 @@
 #include <avr/sleep.h>
 
 #include "ssd.h"
-#include "twi.h"
+#include "i2c.h"
 #include "panic.h"
 
 int main(void) {
@@ -14,12 +14,12 @@ int main(void) {
 
 	uint8_t val = 0;
 
-	twi_init();
-	if (twi_send_bytes(0b1101000, 0x0, &val, 1) != 1)
+	i2c_init();
+	if (i2c_send_bytes(0b1101000, 0x0, &val, 1) != 1)
 		panic();
 
 	while(1) {
-		if (twi_recv_bytes(0b1101000, 0x0, &val, 1) != 1)
+		if (i2c_recv_bytes(0b1101000, 0x0, &val, 1) != 1)
 			panic();
 		ssd_dec(val & 0x0f);
 	}
